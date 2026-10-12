@@ -57,13 +57,9 @@ function render(){ctx.fillStyle=$('trails').checked?'rgba(5,10,19,.22)':'#050a13
 function loop(now){if(demoActive&&!paused&&now-demoSince>=(firstDemoScene?6000:demoDuration)){demoIndex=(demoIndex+1)%demoScenes.length;firstDemoScene=false;applyDemoScene()}const dt=Math.min(2,(now-last)/16.67);fps=fps*.92+(1000/Math.max(1,now-last))*.08;last=now;if(!paused)tick(dt);render();$('stats').textContent=`${birds.length} birds · ${hawks.length} hawks · ${Math.round(fps)} FPS`;requestAnimationFrame(loop)}init();requestAnimationFrame(loop);
 </script><script defer src="https://stats.jeffyclassify.com/script.js" data-website-id="4aaa2918-1461-47a7-84d7-6ac1d2b7364e" data-tag="flock"></script><script>
 (function(){
-var engaged=false,interacted=false;
 function t(name,data){if(typeof umami!=='undefined')umami.track(name,data)}
-setTimeout(function(){t('engaged-10s')},10000);
-setTimeout(function(){t('engaged-30s')},30000);
-setTimeout(function(){t('engaged-60s')},60000);
-function onInteract(){if(!interacted){interacted=true;t('first-interaction')}}
-document.addEventListener('pointerdown',onInteract,{once:true});
+setInterval(function(){t('heartbeat')},10000);
+document.addEventListener('pointerdown',function(){t('first-interaction')},{once:true});
 var ctrls=document.querySelectorAll('aside input, aside select, aside button');
 ctrls.forEach(function(el){el.addEventListener('change',function(){t('control-change',{control:el.id||el.tagName})},{once:true})});
 })();
